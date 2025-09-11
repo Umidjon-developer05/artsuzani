@@ -4,7 +4,6 @@ import { Search, ShoppingCart, Heart, Menu, LogIn } from "lucide-react";
 import UserBox from "@/components/shared/user-box";
 import { Button } from "../ui/button";
 import { SignedIn, SignedOut, SignInButton, useUser } from "@clerk/nextjs";
-import { ModeToggle } from "../Add-mode-toggle";
 import { createUser } from "@/actions/user.actions";
 import Link from "next/link";
 const Header = ({ favoriteLength }: any) => {
@@ -116,7 +115,6 @@ const Header = ({ favoriteLength }: any) => {
                 )}{" "}
               </button>
             </Link>
-            <ModeToggle />
             <SignedIn>
               <UserBox />
             </SignedIn>

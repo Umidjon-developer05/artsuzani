@@ -14,7 +14,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ModeToggle } from "@/components/Add-mode-toggle";
 
 const layout = ({ children }: any) => {
   return (
@@ -39,7 +38,6 @@ const layout = ({ children }: any) => {
                   </BreadcrumbList>
                 </Breadcrumb>
               </div>
-              <ModeToggle />
             </header>
           </SidebarInset>
           <div className="overflow-scroll h-full mb-20">{children}</div>
