@@ -130,19 +130,19 @@ export default async function Home() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {[
                     {
-                      icon: "рџЋЁ",
+                      icon: "🎨",
                       title: "Handcrafted Excellence",
                       desc: "Every piece is meticulously handcrafted by skilled artisans using traditional techniques passed down through generations.",
                       gradient: "from-purple-500 to-purple-600",
                     },
                     {
-                      icon: "рџЊЌ",
+                      icon: "🌍",
                       title: "Authentic Heritage",
                       desc: "Genuine Uzbek Suzani pieces that preserve the authentic cultural heritage and artistic traditions of Central Asia.",
                       gradient: "from-pink-500 to-pink-600",
                     },
                     {
-                      icon: "вњЁ",
+                      icon: "✨",
                       title: "Premium Quality",
                       desc: "Only the finest materials and highest quality craftsmanship ensure each piece becomes a treasured heirloom.",
                       gradient: "from-amber-500 to-amber-600",

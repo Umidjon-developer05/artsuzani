@@ -53,7 +53,7 @@ const Header = ({ favoriteLength }: any) => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href={"/"} className="flex items-center space-x-2">
-            <span className="text-2xl">рџЄЎ</span>
+            <span className="text-2xl">🪡</span>
             <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
               Artsuzani Shop
             </h1>

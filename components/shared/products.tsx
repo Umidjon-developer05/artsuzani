@@ -68,9 +68,7 @@ const Products: React.FC<Props> = ({ products, onView, currency = "USD" }) => {
                 loading="lazy"
               />
             ) : (
-              <div className="w-full aspect-[4/3] bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 flex items-center justify-center text-5xl transition-all duration-500 group-hover:scale-105">
-                рџЄЎ
-              </div>
+              <div className="w-full aspect-[4/3] bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 flex items-center justify-center text-5xl transition-all duration-500 group-hover:scale-105"></div>
             )}
 
             <div className="absolute left-3 top-3 flex gap-2">
