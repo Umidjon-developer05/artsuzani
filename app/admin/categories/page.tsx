@@ -320,7 +320,7 @@ const Categories: React.FC = () => {
                   onClick={closeEdit}
                   className="rounded-lg px-2 py-1 text-sm hover:bg-gray-100"
                 >
-                  вњ•
+                  X
                 </button>
               </div>
 
@@ -399,8 +399,8 @@ const Categories: React.FC = () => {
         )}
 
         <p className="mt-10 text-xs text-gray-500">
-          * Rasm <b>base64</b> koвЂrinishda saqlanadi. Katta hajmli fayllar uchun
-          S3/GCS kabi storage ishlatish maвЂ™qul.
+          * Rasm <b>base64</b> koвЂrinishda saqlanadi. Katta hajmli fayllar
+          uchun S3/GCS kabi storage ishlatish maвЂ™qul.
         </p>
       </div>
     </div>

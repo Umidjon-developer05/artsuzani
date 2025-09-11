@@ -402,7 +402,8 @@ const Products: React.FC = () => {
                     <div className="flex-1 min-w-0">
                       <div className="font-semibold truncate">{p.title}</div>
                       <div className="text-sm text-gray-600 mt-0.5">
-                        {p.categoryTitle ? p.categoryTitle : "вЂ”"} вЂў {p.price}
+                        {p.categoryTitle ? p.categoryTitle : "вЂ”"} вЂў{" "}
+                        {p.price}
                       </div>
                       {p.description && (
                         <div className="text-xs text-gray-500 mt-1 line-clamp-2">
@@ -443,7 +444,7 @@ const Products: React.FC = () => {
                   onClick={closeEdit}
                   className="rounded-lg px-2 py-1 text-sm hover:bg-gray-100"
                 >
-                  вњ•
+                  X
                 </button>
               </div>
 
