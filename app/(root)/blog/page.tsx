@@ -108,7 +108,7 @@ function FeaturedBlog({ blog }: { blog: Blog }) {
               href={`/blogs/${blog?._id}`}
               className="inline-flex text-white items-center justify-center rounded-2xl px-4 py-2 text-sm font-medium bg-primary hover:opacity-90 transition"
             >
-              View в†’
+              View Article &rarr;
             </Link>
           </div>
         </div>
@@ -144,7 +144,7 @@ function BlogCard({ blog }: { blog: any }) {
             href={`/blogs/${blog?._id}`}
             className="text-sm text-primary hover:underline"
           >
-            View в†’
+            View Article &rarr;
           </Link>
         </div>
       </CardContent>
