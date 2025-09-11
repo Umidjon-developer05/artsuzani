@@ -41,7 +41,7 @@ export default function AboutPage() {
                 </h1>
                 <p className="text-xl sm:text-2xl leading-relaxed opacity-95 max-w-3xl mx-auto">
                   Discover the timeless beauty and rich cultural heritage of
-                  Bukhara"s most treasured craft
+                  Bukhara&quot;s most treasured craft
                 </p>
               </div>
             </CardContent>
@@ -71,7 +71,7 @@ export default function AboutPage() {
                 </p>
                 <p>
                   Historically, these magnificent textiles were created as part
-                  of a bride"s dowry, with mothers and daughters working
+                  of a bride&quot;s dowry, with mothers and daughters working
                   together for years to complete elaborate pieces that would
                   adorn the new household and serve as symbols of prosperity and
                   protection.
