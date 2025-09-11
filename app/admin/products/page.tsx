@@ -369,7 +369,7 @@ const Products: React.FC = () => {
 
         {/* LIST */}
         <div className="mt-8">
-          <h2 className="text-lg font-semibold">RoвЂyxat</h2>
+          <h2 className="text-lg font-semibold">Ro&apos;yxat</h2>
 
           {loading ? (
             <div className="mt-4 text-sm text-gray-500">Yuklanmoqda...</div>
