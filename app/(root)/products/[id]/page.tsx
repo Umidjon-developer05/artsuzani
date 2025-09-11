@@ -1,4 +1,5 @@
 // app/(root)/products/[id]/page.tsx
+
 import { AddToCart } from "@/actions/cart.actions";
 import {
   GetFavorite,
@@ -11,10 +12,15 @@ import Header from "@/components/shared/header";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
-// ...
+export default async function Page({
+  params,
+}: {
+  // 👇 In Next 15, params is a Promise
+  params: Promise<{ id: string }>;
+}) {
+  // 👇 Await before destructuring
+  const { id } = await params;
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const { id } = params;
   const product = await GetProductsID(id);
   const data = product && "data" in product ? product.data : product;
   const safeProduct = JSON.parse(JSON.stringify(data));
@@ -22,6 +28,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const { userId } = await auth();
   const favorites = userId ? await GetFavorite(userId) : [];
   const favoriteLength = favorites?.length ? favorites.length : 0;
+
   const isFavorited =
     userId && safeProduct?._id
       ? await isProductFavorited(userId, String(safeProduct._id))
@@ -36,15 +43,12 @@ export default async function Page({ params }: { params: { id: string } }) {
     revalidatePath(`/products/${productId}`);
   }
 
-  // ✅ Server Action: add to cart (ASYNC + "use server")
+  // ✅ Server Action: add to cart
   async function addCart(productId: string) {
     "use server";
     const { userId } = await auth();
     if (!userId) throw new Error("Please sign in");
-    // quantity ni string emas, number qiling (agar action shuni kutilsa)
     await AddToCart(userId, productId, "1");
-    // ixtiyoriy: cart sahifasini revalidate qilishingiz mumkin
-    // revalidatePath("/cart");
   }
 
   return (

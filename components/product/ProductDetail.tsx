@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { Heart } from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
 import * as React from "react";
 import { Button } from "../ui/button";
 import { useAuth } from "@clerk/nextjs";
@@ -131,14 +131,14 @@ export default function ProductDetail({
                 className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full p-2 shadow text-4xl cursor-pointer"
                 aria-label="Previous image"
               >
-                вЂ№
+                <ChevronLeft />
               </button>
               <button
                 onClick={next}
                 className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-2 shadow text-4xl cursor-pointer"
                 aria-label="Next image"
               >
-                вЂє
+                <ChevronRight />
               </button>
               <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-2 py-0.5 text-xs text-white">
                 {idx + 1} / {total}
