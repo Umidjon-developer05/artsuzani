@@ -207,7 +207,7 @@ const Products: React.FC = () => {
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Mahsulotlar</h1>
             <p className="text-gray-600 mt-1">
-              Mahsulot qoвЂshish, tahrirlash va boshqarish.
+              Mahsulot qo&apos;shish, tahrirlash va boshqarish.
             </p>
           </div>
           <button

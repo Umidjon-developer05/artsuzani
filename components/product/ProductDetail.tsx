@@ -192,7 +192,9 @@ export default function ProductDetail({
               aria-pressed={liked}
               aria-label={liked ? "Remove from favorites" : "Add to favorites"}
               title={
-                liked ? "Favoritlardan olib tashlash" : "Favoritga qoвЂshish"
+                liked
+                  ? "Favoritlardan olib tashlash"
+                  : "Favoritga qo&apos;shish"
               }
             >
               <Heart

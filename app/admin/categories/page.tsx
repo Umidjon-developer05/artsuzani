@@ -152,7 +152,7 @@ const Categories: React.FC = () => {
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Kategoriyalar</h1>
             <p className="text-gray-600 mt-1">
-              Yangi kategoriya qoвЂshing va mavjudlarini boshqaring.
+              Yangi kategoriya qo&apos;shing va mavjudlarini boshqaring.
             </p>
           </div>
 
