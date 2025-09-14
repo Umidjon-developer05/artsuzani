@@ -119,7 +119,7 @@ const Header = ({ favoriteLength }: any) => {
               <UserBox />
             </SignedIn>
             <SignedOut>
-              <SignInButton mode="modal">
+              <SignInButton mode="modal" >
                 <Button size={"lg"} className="hidden rounded-full md:flex">
                   Login
                 </Button>

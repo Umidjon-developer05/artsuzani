@@ -20,6 +20,12 @@ export const getBlogs = async () => {
   return JSON.parse(JSON.stringify(docs));
 };
 
+export const getBlogById = async (id: string) => {
+  await dbConnect();
+  const doc = await Blog.findById(id);
+  return JSON.parse(JSON.stringify(doc));
+};
+
 // рџ”Ѕ YANGI: UPDATE
 export const updateBlog = async (
   id: string,

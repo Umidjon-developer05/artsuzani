@@ -3,7 +3,9 @@
 import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
 import * as React from "react";
 import { Button } from "../ui/button";
-import { useAuth } from "@clerk/nextjs";
+import { SignInButton, useAuth } from "@clerk/nextjs";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type Category = {
   _id?: string;
@@ -58,6 +60,7 @@ export default function ProductDetail({
   const total = images.length;
   const { userId } = useAuth();
   const [adding, setAdding] = React.useState(false);
+  const route = useRouter();
 
   // рџ§  optimistic state
   const [liked, setLiked] = React.useState(isFavorited);
@@ -228,28 +231,37 @@ export default function ProductDetail({
             {cleanDesc(product.description)}
           </p>
         )}
-
-        <Button
-          variant="secondary"
-          disabled={adding}
-          onClick={async () => {
-            if (!product?._id) return;
-            try {
-              setAdding(true);
-              await AddCart(String(product._id)); // вњ… server action chaqirildi
-              // ixtiyoriy: toast koвЂrsating
-              alert("Added to cart!");
-            } catch (e) {
-              console.error(e);
-              alert("Add to cart xatolik.");
-            } finally {
-              setAdding(false);
-            }
-          }}
-          className="cursor-pointer"
-        >
-          {adding ? "Adding..." : "Add to cart"}
-        </Button>
+        {!userId ? (
+          <SignInButton mode="modal">
+            <Button variant="outline" className="w-fit">
+              Sign in to add to cart
+            </Button>
+          </SignInButton>
+        ) : (
+          <Button
+            variant="secondary"
+            disabled={adding}
+            onClick={async () => {
+              if (!product?._id) return;
+              try {
+                setAdding(true);
+                if (!userId) {
+                  toast.error("Please sign in to add to cart");
+                } else {
+                  await AddCart(String(product._id));
+                  toast.success("Product added to cart");
+                }
+              } catch (e) {
+                console.error(e);
+              } finally {
+                setAdding(false);
+              }
+            }}
+            className="cursor-pointer"
+          >
+            {adding ? "Adding..." : "Add to cart"}
+          </Button>
+        )}
       </div>
     </section>
   );

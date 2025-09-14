@@ -105,7 +105,7 @@ function FeaturedBlog({ blog }: { blog: Blog }) {
           )}
           <div className="flex justify-end">
             <Link
-              href={`/blogs/${blog?._id}`}
+              href={`/blog/${blog?._id}`}
               className="inline-flex text-white items-center justify-center rounded-2xl px-4 py-2 text-sm font-medium bg-primary hover:opacity-90 transition"
             >
               View Article &rarr;
@@ -141,7 +141,7 @@ function BlogCard({ blog }: { blog: any }) {
         )}
         <div className="mt-4 mb-3">
           <Link
-            href={`/blogs/${blog?._id}`}
+            href={`/blog/${blog?._id}`}
             className="text-sm text-primary hover:underline"
           >
             View Article &rarr;
