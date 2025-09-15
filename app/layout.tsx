@@ -5,11 +5,7 @@ import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://artsuzani.uz"),
-  title: {
-    default: "Artsuzani",
-    template: " Artsuzani",
-  },
+  metadataBase: new URL("https://artsuzani.com"),
   description: "Artsuzani - Handmade Suzani Embroidery from Uzbekistan",
   applicationName: "Artsuzani",
   referrer: "origin-when-cross-origin",
@@ -17,26 +13,18 @@ export const metadata: Metadata = {
   authors: [{ name: "Artsuzani" }],
   creator: "Artsuzani",
   publisher: "Artsuzani",
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
+    title: "Artsuzani - Handmade Suzani Embroidery from Uzbekistan",
+    description:
+      "Discover exquisite handmade Suzani embroidery from Uzbekistan at Artsuzani. Shop unique, traditional designs crafted with care.",
     type: "website",
-    url: "https://artsuzani.uz/",
-    title: "Artsuzani",
+    url: "https://artsuzani.com",
+    locale: "uz_UZ",
+    images:
+      "https://9onczztehf.ufs.sh/f/lneKO3fyzBmDltA8PHEfyzBmDjUJPQdsrZTwG8aWF2VenuNg",
+    countryName: "Uzbekistan",
     siteName: "Artsuzani",
-    description: "Artsuzani - Handmade Suzani Embroidery from Uzbekistan",
-    images: [
-      {
-        url: "https://9onczztehf.ufs.sh/f/lneKO3fyzBmDltA8PHEfyzBmDjUJPQdsrZTwG8aWF2VenuNg",
-        width: 1200,
-        height: 630,
-        alt: "Artsuzani Handmade Suzani",
-      },
-    ],
-    locale: "en_US",
   },
-
   icons: {
     icon: [
       { url: "/favicon.ico" },
