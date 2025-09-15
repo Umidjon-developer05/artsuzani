@@ -5,8 +5,60 @@ import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Artsuzani",
+  metadataBase: new URL("https://artsuzani.uz"), // kerak bo‘lsa domeningizni shu yerda yangilang
+  title: {
+    default: "Artsuzani",
+    template: " Artsuzani",
+  },
   description: "Artsuzani",
+  applicationName: "Artsuzani",
+  referrer: "origin-when-cross-origin",
+  keywords: ["artsuzani", "suzani", "handmade", "embroidery", "uzbek"],
+  authors: [{ name: "Artsuzani" }],
+  creator: "Artsuzani",
+  publisher: "Artsuzani",
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    title: "Artsuzani",
+    siteName: "Artsuzani",
+    description: "Artsuzani",
+    // Talabingiz bo‘yicha rasm joyi bo‘sh:
+    images: ["/artsuzani.png"],
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+    title: "Artsuzani",
+    description: "Artsuzani",
+    // Rasmni keyin qo‘shish uchun bo‘sh qoldirildi:
+    images: [],
+    creator: "@artsuzani", // kerak bo‘lsa o‘zgartiring yoki olib tashlang
+  },
+  // Favikonlar va manifest metadata orqali:
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-96x96.png", type: "image/png", sizes: "96x96" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
+  manifest: "/site.webmanifest",
 };
 
 export default async function LocaleLayout({
