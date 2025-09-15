@@ -25,8 +25,9 @@ export const metadata: Metadata = {
     url: "/",
     title: "Artsuzani",
     siteName: "Artsuzani",
-    description: "Artsuzani",
-    images: "/artsuzani.png",
+    description: "Artsuzani - Handmade Suzani Embroidery from Uzbekistan",
+    images:
+      "https://9onczztehf.ufs.sh/f/lneKO3fyzBmDltA8PHEfyzBmDjUJPQdsrZTwG8aWF2VenuNg",
     locale: "en_US",
   },
   icons: {
