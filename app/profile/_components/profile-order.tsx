@@ -1,8 +1,7 @@
 ﻿"use client";
-import Header from "@/components/shared/header";
 import { UserProfile } from "@clerk/nextjs";
 import Link from "next/link";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 
 type Product = {
   _id: string;
@@ -43,7 +42,6 @@ const ProfileOrder = ({ orders }: { orders: Order[] }) => {
 
   return (
     <div>
-      <Header />
       <div className="text-center mt-16">
         <h1 className="text-2xl mb-6">Profile Page</h1>
         <div className="flex justify-center gap-4">
