@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     default: "Artsuzani",
     template: " Artsuzani",
   },
-  description: "Artsuzani",
+  description: "Artsuzani - Handmade Suzani Embroidery from Uzbekistan",
   applicationName: "Artsuzani",
   referrer: "origin-when-cross-origin",
   keywords: ["artsuzani", "suzani", "handmade", "embroidery", "uzbek"],
@@ -20,36 +20,15 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
   openGraph: {
     type: "website",
     url: "/",
     title: "Artsuzani",
     siteName: "Artsuzani",
     description: "Artsuzani",
-    // Talabingiz bo‘yicha rasm joyi bo‘sh:
-    images: ["/artsuzani.png"],
+    images: "/artsuzani.png",
     locale: "en_US",
   },
-  twitter: {
-    card: "summary",
-    title: "Artsuzani",
-    description: "Artsuzani",
-    // Rasmni keyin qo‘shish uchun bo‘sh qoldirildi:
-    images: [],
-    creator: "@artsuzani", // kerak bo‘lsa o‘zgartiring yoki olib tashlang
-  },
-  // Favikonlar va manifest metadata orqali:
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -58,7 +37,6 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
-  manifest: "/site.webmanifest",
 };
 
 export default async function LocaleLayout({
