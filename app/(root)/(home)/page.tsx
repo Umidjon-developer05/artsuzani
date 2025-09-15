@@ -43,7 +43,7 @@ export default async function Home() {
                   asChild
                 >
                   <Link
-                    href={"/blogs"}
+                    href={"/blog"}
                     className="flex items-center justify-center gap-2 dark:text-white text-black"
                   >
                     <Rss />
