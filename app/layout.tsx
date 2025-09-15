@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://artsuzani.uz"), // kerak bo‘lsa domeningizni shu yerda yangilang
+  metadataBase: new URL("https://artsuzani.uz"),
   title: {
     default: "Artsuzani",
     template: " Artsuzani",
@@ -22,14 +22,21 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    url: "https://www.artsuzani.com/",
+    url: "https://artsuzani.uz/",
     title: "Artsuzani",
     siteName: "Artsuzani",
     description: "Artsuzani - Handmade Suzani Embroidery from Uzbekistan",
-    images:
-      "https://9onczztehf.ufs.sh/f/lneKO3fyzBmDltA8PHEfyzBmDjUJPQdsrZTwG8aWF2VenuNg",
+    images: [
+      {
+        url: "https://9onczztehf.ufs.sh/f/lneKO3fyzBmDltA8PHEfyzBmDjUJPQdsrZTwG8aWF2VenuNg",
+        width: 1200,
+        height: 630,
+        alt: "Artsuzani Handmade Suzani",
+      },
+    ],
     locale: "en_US",
   },
+
   icons: {
     icon: [
       { url: "/favicon.ico" },
