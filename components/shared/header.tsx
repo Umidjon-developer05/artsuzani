@@ -5,6 +5,7 @@ import UserBox from "@/components/shared/user-box";
 import { Button } from "../ui/button";
 import { SignedIn, SignedOut, SignInButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
+import { createUser } from "@/actions/user.actions";
 
 const Header = ({ favoriteLength, cartLength }: any) => {
   const { user } = useUser();
@@ -78,7 +79,7 @@ const Header = ({ favoriteLength, cartLength }: any) => {
     calledRef.current = true;
     (async () => {
       try {
-        // await createUser(payload);
+        await createUser(payload);
         localStorage.setItem(key, "1");
       } catch (e) {
         console.error("createUser xatosi:", e);
