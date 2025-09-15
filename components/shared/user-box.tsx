@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 
 function UserBox() {
   const { user } = useUser();
-  console.log("userbackend", user);
 
   const route = useRouter();
 

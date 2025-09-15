@@ -2,12 +2,27 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Search, ShoppingCart, Heart, Menu, LogIn } from "lucide-react";
 import UserBox from "@/components/shared/user-box";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/separator";
 import { SignedIn, SignedOut, SignInButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { createUser } from "@/actions/user.actions";
 
-const Header = ({ favoriteLength, cartLength }: any) => {
+const Header = ({
+  favoriteLength,
+  cartLength,
+}: {
+  favoriteLength: number;
+  cartLength: number;
+}) => {
   const { user } = useUser();
   const calledRef = useRef(false);
 
@@ -42,14 +57,12 @@ const Header = ({ favoriteLength, cartLength }: any) => {
         const data = await res.json();
         setResults(data);
         setOpen(true);
-      } catch (e) {
-        if ((e as any).name !== "AbortError") {
-          console.error("Qidiruv xatosi:", e);
-        }
+      } catch (e: any) {
+        if (e?.name !== "AbortError") console.error("Qidiruv xatosi:", e);
       } finally {
         setLoading(false);
       }
-    }, 300); // 300ms debounce
+    }, 300);
 
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -57,7 +70,7 @@ const Header = ({ favoriteLength, cartLength }: any) => {
     };
   }, [query]);
 
-  // Clerk createUser qismi (o'zingizdagi kabi)
+  // Clerk createUser
   useEffect(() => {
     if (!user || calledRef.current) return;
     const key = `userCreated:${user.id}`;
@@ -88,7 +101,7 @@ const Header = ({ favoriteLength, cartLength }: any) => {
     })();
   }, [user]);
 
-  // dropdown yopish uchun outside click
+  // dropdown outside click
   const wrapRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     function onDocClick(e: MouseEvent) {
@@ -100,7 +113,7 @@ const Header = ({ favoriteLength, cartLength }: any) => {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border shadow-sm">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b shadow-sm">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -111,7 +124,7 @@ const Header = ({ favoriteLength, cartLength }: any) => {
             </h1>
           </Link>
 
-          {/* Nav */}
+          {/* Nav (desktop) */}
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               href="/"
@@ -145,29 +158,27 @@ const Header = ({ favoriteLength, cartLength }: any) => {
 
           {/* Right */}
           <div className="flex items-center space-x-4" ref={wrapRef}>
-            {/* Search */}
+            {/* Search (desktop) */}
             <div className="hidden sm:flex items-center relative">
-              <input
+              <Input
                 type="text"
                 placeholder="Search products..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onFocus={() => results.length && setOpen(true)}
-                className="w-64 pl-10 pr-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm"
+                className="w-64 pl-10 pr-4"
               />
-              <Search className="absolute left-3 w-4 h-4 text-gray-400" />
+              <Search className="absolute left-3 w-4 h-4 text-gray-400 pointer-events-none" />
 
               {/* Dropdown */}
               {open && (
-                <div className="absolute top-20 mt-24 left-0 bg-white border rounded-lg shadow-lg w-72 max-h-72 overflow-y-auto">
+                <div className="absolute top-full left-0 mt-2 bg-white border rounded-lg shadow-lg w-72 max-h-72 overflow-y-auto">
                   {loading && (
-                    <div className="p-3 text-sm text-gray-500">
-                      Qidirilmoqda…
-                    </div>
+                    <div className="p-3 text-sm text-gray-500">Searching…</div>
                   )}
                   {!loading && results.length === 0 && (
                     <div className="p-3 text-sm text-gray-500">
-                      Hech narsa topilmadi
+                      No results found
                     </div>
                   )}
                   {!loading &&
@@ -175,7 +186,7 @@ const Header = ({ favoriteLength, cartLength }: any) => {
                       <Link
                         key={item._id}
                         href={`/products/${item._id}`}
-                        className="block px-3 py-2   hover:bg-gray-100"
+                        className="block px-3 py-2 hover:bg-gray-100"
                         onClick={() => setOpen(false)}
                       >
                         {item.title}
@@ -185,46 +196,185 @@ const Header = ({ favoriteLength, cartLength }: any) => {
               )}
             </div>
 
-            {/* Icons */}
+            {/* Favorites */}
             <Link href={"/favorite"}>
-              <button className="p-2 relative text-gray-600 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative text-gray-600 hover:text-red-500 hover:bg-red-50 rounded-full"
+              >
                 <Heart className="w-5 h-5" />
                 {favoriteLength ? (
                   <span className="absolute -top-1 -right-1 bg-red-500 rounded-full w-5 h-5 flex items-center justify-center text-white text-xs">
                     {favoriteLength}
                   </span>
                 ) : null}
-              </button>
+              </Button>
             </Link>
 
+            {/* Auth */}
             <SignedIn>
               <UserBox />
             </SignedIn>
             <SignedOut>
               <SignInButton mode="modal">
-                <Button size={"lg"} className="hidden rounded-full md:flex">
+                <Button size="lg" className="hidden rounded-full md:flex">
                   Login
                 </Button>
               </SignInButton>
               <SignInButton mode="modal">
-                <Button size={"icon"} variant={"ghost"} className="md:hidden">
-                  <LogIn />
+                <Button size="icon" variant="ghost" className="md:hidden">
+                  <LogIn className="w-5 h-5" />
                 </Button>
               </SignInButton>
             </SignedOut>
 
+            {/* Cart */}
             <Link href={"/shopping/cart"}>
-              <button className="p-2 cursor-pointer text-gray-600 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors relative">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative text-gray-600 hover:text-red-500 hover:bg-red-50 rounded-full"
+              >
                 <ShoppingCart className="w-5 h-5" />
                 <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
                   {cartLength ? cartLength : 0}
                 </span>
-              </button>
+              </Button>
             </Link>
 
-            <button className="md:hidden p-2 text-gray-600 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors">
-              <Menu className="w-5 h-5" />
-            </button>
+            {/* MOBILE MENU (shadcn Sheet) */}
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="md:hidden text-gray-600 hover:text-red-500 hover:bg-red-50 rounded-full"
+                >
+                  <Menu className="w-5 h-5" />
+                </Button>
+              </SheetTrigger>
+
+              <SheetContent side="right" className="w-[85vw] sm:w-[380px]">
+                <SheetHeader>
+                  <SheetTitle>Menu</SheetTitle>
+                </SheetHeader>
+
+                <div className="mt-4 space-y-4 p-2">
+                  {/* Mobile search */}
+                  <div className="relative">
+                    <Input
+                      placeholder="Search products..."
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      className="pl-10"
+                    />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                    {query && (
+                      <div className="absolute z-10 left-0 right-0 mt-2 bg-white border rounded-lg shadow max-h-72 overflow-y-auto">
+                        {loading && (
+                          <div className="p-3 text-sm text-gray-500">
+                            Searching…
+                          </div>
+                        )}
+                        {!loading && results.length === 0 && (
+                          <div className="p-3 text-sm text-gray-500">
+                            No results found
+                          </div>
+                        )}
+                        {!loading &&
+                          results.map((item: any) => (
+                            <Link
+                              key={item._id}
+                              href={`/products/${item._id}`}
+                              className="block px-3 py-2 hover:bg-gray-100"
+                            >
+                              {item.title}
+                            </Link>
+                          ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <Separator />
+
+                  {/* Nav links */}
+                  <nav className="grid gap-2 text-base">
+                    <Link
+                      href="/"
+                      className="px-2 py-2 rounded hover:bg-accent"
+                    >
+                      Home
+                    </Link>
+                    <Link
+                      href="/about"
+                      className="px-2 py-2 rounded hover:bg-accent"
+                    >
+                      About
+                    </Link>
+                    <Link
+                      href="/products"
+                      className="px-2 py-2 rounded hover:bg-accent"
+                    >
+                      Products
+                    </Link>
+                    <Link
+                      href="/blog"
+                      className="px-2 py-2 rounded hover:bg-accent"
+                    >
+                      BLOG
+                    </Link>
+                  </nav>
+
+                  <Separator />
+
+                  {/* Quick actions */}
+                  <div className="grid grid-cols-2 gap-2">
+                    <Link href="/favorite">
+                      <Button
+                        variant="secondary"
+                        className="w-full justify-start"
+                      >
+                        <Heart className="mr-2 h-4 w-4" />
+                        Favorites
+                        {favoriteLength ? (
+                          <span className="ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 text-xs text-white">
+                            {favoriteLength}
+                          </span>
+                        ) : null}
+                      </Button>
+                    </Link>
+
+                    <Link href="/shopping/cart">
+                      <Button
+                        variant="secondary"
+                        className="w-full justify-start"
+                      >
+                        <ShoppingCart className="mr-2 h-4 w-4" />
+                        Cart
+                        <span className="ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 text-xs text-white">
+                          {cartLength ? cartLength : 0}
+                        </span>
+                      </Button>
+                    </Link>
+                  </div>
+
+                  <Separator />
+
+                  {/* Auth area */}
+                  <div className="flex items-center justify-between">
+                    <SignedIn>
+                      <UserBox />
+                    </SignedIn>
+                    <SignedOut>
+                      <SignInButton mode="modal">
+                        <Button className="rounded-full">Login</Button>
+                      </SignInButton>
+                    </SignedOut>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>
