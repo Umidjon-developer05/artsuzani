@@ -1,6 +1,4 @@
-// app/(root)/blog/[id]/page.tsx
 import { getBlogById } from "@/actions/blog.actions";
-import Header from "@/components/shared/header";
 import React from "react";
 import Image from "next/image";
 
@@ -22,8 +20,6 @@ export default async function BlogId({
 
   return (
     <div className="min-h-screen ">
-      <Header />
-
       <main className="max-w-4xl mx-auto py-10 px-4 mt-24">
         {/* Title */}
 
