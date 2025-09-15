@@ -21,6 +21,7 @@ import {
 import { Button } from "../ui/button";
 import { Input } from "@/components/ui/input"; // в¬…пёЏ qo"shildi
 import { Label } from "@/components/ui/label"; // в¬…пёЏ (agar bor bo"lsa, chiroyli label uchun)
+import { useRouter } from "next/navigation";
 
 type Product = {
   _id: string;
@@ -47,7 +48,7 @@ export default function CartList({
 }) {
   const [isPending, startTransition] = useTransition();
   const [success, setSuccess] = useState<string | null>(null);
-
+  const route = useRouter(); // useRouter() o'rniga oddiy string (agar kerak bo'lsa)
   // в¬‡пёЏ Yangi: checkout form state
   const [fullName, setFullName] = useState("");
   const [location, setLocation] = useState("");
@@ -93,6 +94,7 @@ export default function CartList({
       );
 
       setSuccess("Order created successfully!");
+      route.push("/profile"); // yoki route.refresh() agar shu sahifada bo'lsangiz
       // modal yopilgach inputlarni tozalash uchun:
       setFullName("");
       setLocation("");
@@ -177,7 +179,7 @@ export default function CartList({
                       className="w-8 h-8 rounded-full grid place-items-center hover:bg-gray-100 disabled:opacity-50"
                       aria-label="Decrease quantity"
                     >
-                      в€’
+                      -
                     </button>
                     <span className="w-8 text-center tabular-nums">
                       {it.quantity}

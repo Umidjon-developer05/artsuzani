@@ -1,14 +1,11 @@
 ﻿import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import Header from "@/components/shared/header";
 import Link from "next/link";
 import { ArrowLeft, Sparkles, Heart, Globe } from "lucide-react";
 
-export default function AboutPage() {
+export default async function AboutPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background/50 to-background">
-      <Header favoriteLength={0} />
-
       <main className="pt-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         {/* Back Button */}
         <div className="mb-8 animate-in fade-in slide-in-from-left-4 duration-500 sm:hidden">

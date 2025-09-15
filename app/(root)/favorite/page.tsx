@@ -1,6 +1,5 @@
 ﻿import { GetFavorite } from "@/actions/favorite.actions";
 import FavoriteProducts from "@/components/favorite/Favorite";
-import Header from "@/components/shared/header";
 import { auth } from "@clerk/nextjs/server";
 
 const Favorite = async () => {
@@ -14,9 +13,7 @@ const Favorite = async () => {
 
   return (
     <div>
-      <div>
-        <Header />
-      </div>
+      <div></div>
       <div className="mt-24">
         <FavoriteProducts products={products} />
       </div>

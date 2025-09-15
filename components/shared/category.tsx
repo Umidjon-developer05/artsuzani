@@ -3,8 +3,10 @@
 import type * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export type CategoryItem = {
+  _id?: string;
   title: string;
   description?: string;
   /** Emoji, icon URL, or any ReactNode */
@@ -36,14 +38,22 @@ const DEFAULT_COLORS = [
 ];
 
 const DEFAULT_ITEMS: CategoryItem[] = [
-  { title: "categories.homeDecors", image: "рџЏ ", description: "Home & dГ©cor" },
+  {
+    title: "categories.homeDecors",
+    image: "рџЏ ",
+    description: "Home & dГ©cor",
+  },
   { title: "categories.caftans", image: "рџ‘—", description: "Caftans & wear" },
   {
     title: "categories.fabrics",
     image: "рџ§µ",
     description: "Fabrics & textiles",
   },
-  { title: "categories.accessories", image: "рџ‘њ", description: "Accessories" },
+  {
+    title: "categories.accessories",
+    image: "рџ‘њ",
+    description: "Accessories",
+  },
 ];
 
 /**
@@ -73,38 +83,40 @@ export default function Category({
               )}
               style={{ animationDelay: `${index * 150}ms` }}
             >
-              <div>
-                <div className="rounded-2xl bg-card transition-all duration-300 group-hover:bg-card/95">
-                  <CardContent className="p-8 text-center">
-                    <div className="mb-4 flex justify-center transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                      {item?.image && /^(https?:)?\/\//.test(item.image) ? (
-                        <img
-                          src={item.image}
-                          alt=""
-                          className="h-20 w-20 object-cover filter transition-all duration-300 group-hover:brightness-110"
-                        />
-                      ) : (
-                        <img
-                          src={item.image}
-                          alt=""
-                          className="h-20 w-20 object-cover filter transition-all duration-300 group-hover:brightness-110"
-                        />
-                      )}
-                    </div>
+              <Link href={`/product-category/${item._id}`}>
+                <div>
+                  <div className="rounded-2xl bg-card transition-all duration-300 group-hover:bg-card/95">
+                    <CardContent className="p-8 text-center">
+                      <div className="mb-4 flex justify-center transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                        {item?.image && /^(https?:)?\/\//.test(item.image) ? (
+                          <img
+                            src={item.image}
+                            alt=""
+                            className="h-20 w-20 object-cover filter transition-all duration-300 group-hover:brightness-110"
+                          />
+                        ) : (
+                          <img
+                            src={item.image}
+                            alt=""
+                            className="h-20 w-20 object-cover filter transition-all duration-300 group-hover:brightness-110"
+                          />
+                        )}
+                      </div>
 
-                    <h3 className="text-lg font-semibold text-foreground line-clamp-2 mb-2 transition-colors duration-300 group-hover:text-primary">
-                      {item.title}
-                    </h3>
-                    {item.description ? (
-                      <p className="text-sm text-muted-foreground mt-2 line-clamp-2 leading-relaxed transition-colors duration-300">
-                        {item.description}
-                      </p>
-                    ) : (
-                      <div className="h-5" />
-                    )}
-                  </CardContent>
+                      <h3 className="text-lg font-semibold text-foreground line-clamp-2 mb-2 transition-colors duration-300 group-hover:text-primary">
+                        {item.title}
+                      </h3>
+                      {item.description ? (
+                        <p className="text-sm text-muted-foreground mt-2 line-clamp-2 leading-relaxed transition-colors duration-300">
+                          {item.description}
+                        </p>
+                      ) : (
+                        <div className="h-5" />
+                      )}
+                    </CardContent>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </Card>
           );
 

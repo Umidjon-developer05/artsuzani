@@ -1,53 +1,105 @@
 ﻿"use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Search, ShoppingCart, Heart, Menu, LogIn } from "lucide-react";
 import UserBox from "@/components/shared/user-box";
 import { Button } from "../ui/button";
 import { SignedIn, SignedOut, SignInButton, useUser } from "@clerk/nextjs";
-import { createUser } from "@/actions/user.actions";
 import Link from "next/link";
-const Header = ({ favoriteLength }: any) => {
+
+const Header = ({ favoriteLength, cartLength }: any) => {
   const { user } = useUser();
   const calledRef = useRef(false);
-  console.log(favoriteLength, "headerdagi");
+
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<any[]>([]);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const abortRef = useRef<AbortController | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // LIVE SEARCH (debounce + abort)
+  useEffect(() => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    if (abortRef.current) abortRef.current.abort();
+
+    if (!query.trim()) {
+      setResults([]);
+      setOpen(false);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    timerRef.current = setTimeout(async () => {
+      const controller = new AbortController();
+      abortRef.current = controller;
+      try {
+        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`, {
+          signal: controller.signal,
+          cache: "no-store",
+        });
+        const data = await res.json();
+        setResults(data);
+        setOpen(true);
+      } catch (e) {
+        if ((e as any).name !== "AbortError") {
+          console.error("Qidiruv xatosi:", e);
+        }
+      } finally {
+        setLoading(false);
+      }
+    }, 300); // 300ms debounce
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      if (abortRef.current) abortRef.current.abort();
+    };
+  }, [query]);
+
+  // Clerk createUser qismi (o'zingizdagi kabi)
   useEffect(() => {
     if (!user || calledRef.current) return;
-
     const key = `userCreated:${user.id}`;
     if (typeof window !== "undefined" && localStorage.getItem(key)) {
       calledRef.current = true;
       return;
     }
-
     const payload = {
       clerkId: user.id,
       email: user.primaryEmailAddress?.emailAddress ?? "",
       fullName: user.fullName ?? "",
       picture: user.imageUrl ?? "",
     };
-
     if (!payload.email) {
       calledRef.current = true;
-      console.warn("Email yoвЂq, createUser chaqirilmaydi");
+      console.warn("Email yo‘q, createUser chaqirilmaydi");
       return;
     }
-
     calledRef.current = true;
-
     (async () => {
       try {
-        await createUser(payload);
-        // faqat muvaffaqiyat boвЂlsa belgini qoвЂyamiz
+        // await createUser(payload);
         localStorage.setItem(key, "1");
-        // ixtiyoriy: console.log("User saved:", saved?._id);
       } catch (e) {
         console.error("createUser xatosi:", e);
-        calledRef.current = false; // qayta harakat qilmoqchi boвЂlsangiz
+        calledRef.current = false;
       }
     })();
   }, [user]);
+
+  // dropdown yopish uchun outside click
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    function onDocClick(e: MouseEvent) {
+      if (!wrapRef.current) return;
+      if (!wrapRef.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50  bg-background/80 backdrop-blur-md border-b border shadow-sm">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border shadow-sm">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -58,7 +110,7 @@ const Header = ({ favoriteLength }: any) => {
             </h1>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Nav */}
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               href="/"
@@ -90,16 +142,46 @@ const Header = ({ favoriteLength }: any) => {
             </Link>
           </nav>
 
-          {/* Right Side Actions */}
-          <div className="flex items-center space-x-4">
+          {/* Right */}
+          <div className="flex items-center space-x-4" ref={wrapRef}>
             {/* Search */}
             <div className="hidden sm:flex items-center relative">
               <input
                 type="text"
                 placeholder="Search products..."
-                className="w-64 pl-10 pr-4 py-2  border  rounded-full focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onFocus={() => results.length && setOpen(true)}
+                className="w-64 pl-10 pr-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm"
               />
               <Search className="absolute left-3 w-4 h-4 text-gray-400" />
+
+              {/* Dropdown */}
+              {open && (
+                <div className="absolute top-20 mt-24 left-0 bg-white border rounded-lg shadow-lg w-72 max-h-72 overflow-y-auto">
+                  {loading && (
+                    <div className="p-3 text-sm text-gray-500">
+                      Qidirilmoqda…
+                    </div>
+                  )}
+                  {!loading && results.length === 0 && (
+                    <div className="p-3 text-sm text-gray-500">
+                      Hech narsa topilmadi
+                    </div>
+                  )}
+                  {!loading &&
+                    results.map((item: any) => (
+                      <Link
+                        key={item._id}
+                        href={`/products/${item._id}`}
+                        className="block px-3 py-2   hover:bg-gray-100"
+                        onClick={() => setOpen(false)}
+                      >
+                        {item.title}
+                      </Link>
+                    ))}
+                </div>
+              )}
             </div>
 
             {/* Icons */}
@@ -110,16 +192,15 @@ const Header = ({ favoriteLength }: any) => {
                   <span className="absolute -top-1 -right-1 bg-red-500 rounded-full w-5 h-5 flex items-center justify-center text-white text-xs">
                     {favoriteLength}
                   </span>
-                ) : (
-                  ""
-                )}{" "}
+                ) : null}
               </button>
             </Link>
+
             <SignedIn>
               <UserBox />
             </SignedIn>
             <SignedOut>
-              <SignInButton mode="modal" >
+              <SignInButton mode="modal">
                 <Button size={"lg"} className="hidden rounded-full md:flex">
                   Login
                 </Button>
@@ -130,16 +211,16 @@ const Header = ({ favoriteLength }: any) => {
                 </Button>
               </SignInButton>
             </SignedOut>
+
             <Link href={"/shopping/cart"}>
               <button className="p-2 cursor-pointer text-gray-600 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors relative">
                 <ShoppingCart className="w-5 h-5" />
                 <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                  3
+                  {cartLength ? cartLength : 0}
                 </span>
               </button>
             </Link>
 
-            {/* Mobile Menu Button */}
             <button className="md:hidden p-2 text-gray-600 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors">
               <Menu className="w-5 h-5" />
             </button>

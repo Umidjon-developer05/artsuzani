@@ -3,7 +3,6 @@ import { getCategories } from "@/actions/category.actions";
 import { GetFavorite } from "@/actions/favorite.actions";
 import { getProducts } from "@/actions/product.actions";
 import Category from "@/components/shared/category";
-import Header from "@/components/shared/header";
 import Products from "@/components/shared/products";
 import { auth } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui/button";
@@ -14,14 +13,9 @@ import Link from "next/link";
 export default async function Home() {
   const category = await getCategories();
   const products = await getProducts();
-  const { userId } = await auth(); // Mock user for demo
-  const favorites = userId ? await GetFavorite(userId) : [];
-  const favoriteLength = favorites?.length ? favorites.length : 0;
 
   return (
     <div className=" bg-gradient-to-b from-background via-background/50 to-background">
-      <Header favoriteLength={favoriteLength} />
-
       <main className="pt-24 px-4 sm:px-6 lg:px-8 max-w-8xl mx-auto">
         <Card className="relative overflow-hidden rounded-3xl border-none shadow-2xl mb-16 bg-gradient-to-tl from-purple-600 via-pink-600 to-purple-800 dark:from-purple-800 dark:via-pink-800 dark:to-purple-900 animate-in fade-in slide-in-from-top-8 duration-1000">
           <div className="absolute inset-0 opacity-20">

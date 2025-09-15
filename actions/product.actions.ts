@@ -3,7 +3,7 @@
 import dbConnect from "@/lib/connection";
 import productModel from "@/models/product.model";
 import categoryModel from "@/models/category.model";
-import mongoose, { Types } from "mongoose";
+import mongoose, { isValidObjectId, Types } from "mongoose";
 import { z } from "zod";
 
 /** ========= TYPES ========= */
@@ -180,6 +180,21 @@ export async function createProduct(
   if (!doc)
     return { ok: false, error: "Yaratildi, lekin qayta oвЂqib boвЂlmadi" };
   return { ok: true, data: toDTO(doc) };
+}
+
+export async function getCategoriesProducts(categoryId: string) {
+  await dbConnect();
+
+  if (!isValidObjectId(categoryId)) {
+    throw new Error("Invalid category id");
+  }
+
+  const products = await productModel
+    .find({ category: new mongoose.Types.ObjectId(categoryId) })
+    .populate("category")
+    .lean();
+
+  return products; // [] bo'lishi mumkin
 }
 
 export async function updateProduct(

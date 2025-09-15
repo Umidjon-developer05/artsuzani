@@ -1,5 +1,5 @@
 // app/(root)/products/[id]/page.tsx
-import { AddToCart } from "@/actions/cart.actions";
+import { AddToCart, GetCart } from "@/actions/cart.actions";
 import {
   GetFavorite,
   isProductFavorited,
@@ -94,7 +94,10 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-
+  const { userId } = await auth();
+  const cartLength = userId ? await GetCart(userId) : 0;
+  const cartLen = Array.isArray(cartLength) ? cartLength.length : 0;
+  console.log(cartLength, "cartLength");
   // --- Fetch product safely and ensure it's RSC-serializable ---
   let safeProduct: any = null;
   try {
@@ -108,9 +111,8 @@ export default async function Page({
     console.error("GetProductsID failed:", e);
     return notFound();
   }
-
   // --- Auth + favorites guarded ---
-  const { userId } = await auth();
+
   let favoriteLength = 0;
   let isFavorited = false;
 
@@ -146,7 +148,7 @@ export default async function Page({
 
   return (
     <div>
-      <Header favoriteLength={favoriteLength} />
+      <Header favoriteLength={favoriteLength} cartLength={cartLen} />
       <main className="mx-auto max-w-6xl px-4 py-8 mt-24">
         <ProductDetail
           product={safeProduct}

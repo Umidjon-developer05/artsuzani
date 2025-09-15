@@ -1,7 +1,6 @@
 ﻿import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Header from "@/components/shared/header";
 import { getBlogs } from "@/actions/blog.actions";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -155,10 +154,8 @@ function BlogCard({ blog }: { blog: any }) {
 export default async function Page() {
   const blogs = await getBlogs();
   const list = Array.isArray(blogs) ? blogs : [];
-
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       <div className="container mx-auto px-4 md:px-6 max-w-6xl py-8 md:py-12 mt-20">
         <div className="mb-8 md:mb-10 text-center">
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight">

@@ -40,6 +40,7 @@ export default function FavoriteProducts({
     // рџ”Ґ Chiroyli empty state
     return (
       <div className="flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-neutral-900/40 p-12 text-center">
+        {/* Icon */}
         <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10">
           <svg
             viewBox="0 0 24 24"
@@ -50,18 +51,22 @@ export default function FavoriteProducts({
             <path d="M12.1 21.35l-1.1-.99C5.14 15.24 2 12.32 2 8.98 2 6.42 4.07 4.5 6.75 4.5c1.54 0 3.04.7 4 1.81a5.3 5.3 0 014-1.81C17.93 4.5 20 6.42 20 8.98c0 3.34-3.14 6.26-8.99 11.38l-1 .99z" />
           </svg>
         </div>
-        <h2 className="text-xl font-semibold text-white">
-          Hozircha favorit yoвЂq
-        </h2>
+
+        {/* Title */}
+        <h2 className="text-xl font-semibold text-white">No favorites yet</h2>
+
+        {/* Description */}
         <p className="mt-2 max-w-md text-sm text-white/70">
-          Sizga yoqqan mahsulotlarni вќ¤пёЏ bosib saqlang. Ular shu yerda paydo
-          boвЂladi вЂ” refresh qilsangiz ham oвЂchmaydi.
+          Tap ❤️ on the products you like to save them. They will appear here
+          and won’t disappear even if you refresh the page.
         </p>
+
+        {/* Link button */}
         <Link
           href="/products"
-          className="mt-6 inline-flex items-center rounded-xl bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/20"
+          className="mt-6 inline-flex items-center rounded-xl bg-white/10 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/20"
         >
-          Katalogga qaytish
+          Back to catalog
         </Link>
       </div>
     );

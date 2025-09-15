@@ -1,6 +1,7 @@
 ﻿"use client";
 import Header from "@/components/shared/header";
 import { UserProfile } from "@clerk/nextjs";
+import Link from "next/link";
 import React, { useMemo, useState } from "react";
 
 type Product = {
@@ -74,6 +75,12 @@ const ProfileOrder = ({ orders }: { orders: Order[] }) => {
           <div className="max-w-3xl w-full space-y-6">
             <h2 className="text-xl font-semibold mb-4 text-center">
               Order list
+            </h2>
+            <h2 className="text-xl font-semibold mb-4 text-center">
+              To complete your payment, please contact us via WhatsApp.
+            </h2>
+            <h2 className="text-xl font-semibold mb-4 text-center">
+              Please include your Order ID when you contact us.
             </h2>
 
             {orders?.length ? (
@@ -182,11 +189,18 @@ const ProfileOrder = ({ orders }: { orders: Order[] }) => {
                       </div>
                       <div className="flex items-center gap-2">
                         <h1>To make a payment</h1>
-                        <img
-                          className="cursor-pointer w-10 h-10"
-                          src="/whatsapp.png"
-                          alt="Payme"
-                        />
+                        <Link
+                          href={
+                            "https://api.whatsapp.com/send/?phone=998917767714&text&type=phone_number&app_absent=0"
+                          }
+                          target="_blank"
+                        >
+                          <img
+                            className="cursor-pointer w-10 h-10"
+                            src="/whatsapp.png"
+                            alt="Payme"
+                          />
+                        </Link>
                       </div>
                     </div>
                   </div>

@@ -1,9 +1,7 @@
 ﻿import { GetCart } from "@/actions/cart.actions";
-import Header from "@/components/shared/header";
 import { auth } from "@clerk/nextjs/server";
 import React from "react";
 import CartList from "@/components/cart/cart-list";
-import { GetFavorite } from "@/actions/favorite.actions";
 
 const Cart = async () => {
   const { userId } = await auth();
@@ -18,11 +16,9 @@ const Cart = async () => {
     updatedAt: item.updatedAt,
     // Add other CartItem properties if needed
   }));
-  const favorites = userId ? await GetFavorite(userId) : [];
-  const favoriteLength = favorites?.length ? favorites.length : 0;
+
   return (
     <div>
-      <Header favoriteLength={favoriteLength} />
       <div className="mt-24">
         <h1 className="text-2xl text-center">Shopping cart</h1>
         <CartList userId={userId ?? ""} items={items} />
