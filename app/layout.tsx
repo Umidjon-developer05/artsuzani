@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    url: "/",
+    url: "https://www.artsuzani.com/",
     title: "Artsuzani",
     siteName: "Artsuzani",
     description: "Artsuzani - Handmade Suzani Embroidery from Uzbekistan",
