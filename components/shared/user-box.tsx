@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
 } from "../ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
-import { Avatar, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import useUser from "@/hooks/use-user";
 import { useRouter } from "next/navigation";
 
@@ -45,9 +45,16 @@ function UserBox() {
           </p>
 
           <div className="flex items-center gap-x-2">
-            <div className="rounded-md bg-secondary p-1">
+            <div className="rounded-md p-1">
               <Avatar className="size-8">
-                <AvatarImage src={user?.picture ?? ""} />
+                {/* rasm bo'lsa ko'rsatamiz; bo'lmasa fallback ishlaydi */}
+                <AvatarImage
+                  src={user?.picture || undefined}
+                  alt={user?.fullName || "User avatar"}
+                  className="object-cover"
+                />
+                {/* rasm bo'lmaganda: bg-secondary + animate-pulse aylana */}
+                <AvatarFallback className="bg-secondary animate-pulse" />
               </Avatar>
             </div>
 
