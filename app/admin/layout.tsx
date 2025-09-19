@@ -32,7 +32,8 @@ export default function AdminLayout({
     if (user === undefined) return; // loading paytida hech narsa qilma
     if (user === null) {
       router.replace("/"); // login qilinmagan bo‘lsa
-    } else if (!user.isAdmin) {
+    }
+    if (user?.isAdmin !== true) {
       router.replace("/"); // oddiy user bo‘lsa
     }
   }, [!user, router]);
