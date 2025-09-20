@@ -18,7 +18,7 @@ function UserBox() {
   const route = useRouter();
 
   function OnAdminHref() {
-    route.push("/admin/dashboard");
+    route.push("/admin");
   }
   function OnProfileHref() {
     route.push("/profile");

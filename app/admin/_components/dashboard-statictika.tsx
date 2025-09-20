@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { statistika } from "@/actions/dashboard.actions";
 import { Card, CardContent } from "@/components/ui/card";
 import React, { useEffect, useState } from "react";

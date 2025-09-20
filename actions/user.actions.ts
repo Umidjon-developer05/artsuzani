@@ -38,3 +38,12 @@ export const getUser = async (clerkId: string) => {
     throw new Error("Error fetching user. Please try again.");
   }
 };
+export const getRole = async (clerkId: string) => {
+  try {
+    await dbConnect();
+    const user = await userModel.findOne({ clerkId }).select("role isAdmin");
+    return user;
+  } catch (error) {
+    throw new Error("Error getting role");
+  }
+};

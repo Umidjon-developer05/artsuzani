@@ -1,9 +1,4 @@
-﻿"use client";
-
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import useUser from "@/hooks/use-user";
-
+﻿import React from "react";
 import SidebarDashboard from "./_components/sidebar-dashboard";
 import {
   SidebarInset,
@@ -19,29 +14,18 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { auth } from "@clerk/nextjs/server";
+import { getRole } from "@/actions/user.actions";
+import { redirect } from "next/navigation";
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = useUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (user === undefined) return; // loading paytida hech narsa qilma
-    if (user === null) {
-      router.replace("/"); // login qilinmagan bo‘lsa
-    }
-    if (user?.isAdmin !== true) {
-      router.replace("/"); // oddiy user bo‘lsa
-    }
-  }, [!user, router]);
-
-  if (user === undefined) return <div>Loading...</div>; // hali yuklanyapti
-  if (!user?.isAdmin) return <div>Loading...</div>;
-  if (user === null || !user.isAdmin) return null; // redirect bo‘lib ketadi
-
+  const { userId } = await auth();
+  const user = await getRole(userId!);
+  if (!user?.isAdmin) return redirect("/");
   return (
     <SidebarProvider>
       <div className="flex h-screen w-screen overflow-hidden">
