@@ -87,7 +87,7 @@ const Products: React.FC<Props> = ({ products, currency = "USD" }) => {
                 href={`/products/${product?._id}`}
                 className="bg-gradient-to-r from-suzani-burgundy to-primary hover:opacity-90 text-primary-foreground font-medium px-2 py-2 rounded-lg transition-all duration-300"
               >
-                View Article &rarr;
+                View Details &rarr;
               </Link>
             </div>
           </CardContent>
