@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
-    domains: ["avatars.mds.yandex.net"],
+    domains: ["avatars.mds.yandex.net", "dkm.gov.uz"],
   },
 };
 

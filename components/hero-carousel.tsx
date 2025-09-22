@@ -24,7 +24,7 @@ const slides = [
     caption: "From the bazaars of Bukhara",
   },
   {
-    src: "https://avatars.mds.yandex.net/i?id=cdc7b147bbdc1ad81d917850b8ffc1d16da7304e-8174067-images-thumbs&ref=rim&n=33&w=443&h=250",
+    src: "http://dkm.gov.uz/uploads/2020/08/aykuprvkeornovoykrvovkpryukap.jpg",
     alt: "Hand stitching on Suzani textile",
     caption: "Hand stitching — every thread matters",
   },
