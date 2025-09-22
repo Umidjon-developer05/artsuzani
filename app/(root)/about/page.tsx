@@ -144,7 +144,7 @@ export default async function AboutPage() {
             Compartments, borders, and patterns are crisscrossed and interlaced,
             just like the motifs in the local architecture. However, overall,
             there is no figurative imagery since the emphasis is on the
-            decorative element. The dyes to make the threads' colours come from
+            decorative element. The dyes to make the threads colours come from
             various sources, such as walnuts, where the shell is boiled in a
             vat. Once the dye has been extracted, the nuts are eaten. Then there
             is the golden harmala plant, which grows in the desert. It was
@@ -178,13 +178,12 @@ export default async function AboutPage() {
             creates it perfectly. When you draw out your complex design with
             borders and compartments, you make sure some feature needs to be
             aligned. In pride of place in the main living room, in a Uzbek
-            woman's house, you see the pile of fabrics on a table or box at the
-            heart of the household. You sleep, eat and relax with the
+            woman&apos;s house, you see the pile of fabrics on a table or box at
+            the heart of the household. You sleep, eat and relax with the
             embroidery. Tradition shared is tradition endured.
           </p>
         </div>
 
-        
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           {/* History Section */}
