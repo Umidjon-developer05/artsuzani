@@ -3,31 +3,34 @@
 import * as React from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 
-export type Slide = {
-  src: string;
-  alt: string;
-  caption?: string;
-  badge?: string;
-};
-
 interface HeroCarouselProps extends React.HTMLAttributes<HTMLDivElement> {
-  slides: Slide[];
   heightClass?: string; // e.g. "h-[60vh] min-h-[360px] max-h-[680px]"
   autoplayMs?: number; // default 4500
 }
 
+const slides = [
+  {
+    src: "/artsuzani.jpg",
+    alt: "Vintage Suzani embroidery detail",
+    caption: "Vintage Suzani — handworked heritage",
+  },
+  {
+    src: "https://avatars.mds.yandex.net/i?id=ecfde83c3d0099d7510fa2d5672a7dd2_l-5234838-images-thumbs&ref=rim&n=13&w=1200&h=600",
+    alt: "Bukhara bazaar with textiles",
+    caption: "From the bazaars of Bukhara",
+  },
+  {
+    src: "https://avatars.mds.yandex.net/i?id=cdc7b147bbdc1ad81d917850b8ffc1d16da7304e-8174067-images-thumbs&ref=rim&n=33&w=443&h=250",
+    alt: "Hand stitching on Suzani textile",
+    caption: "Hand stitching — every thread matters",
+  },
+];
+
 export function HeroCarousel({
-  slides,
   className,
   heightClass = "h-[52vh] min-h-[320px] max-h-[560px]",
   autoplayMs = 4500,
@@ -41,14 +44,50 @@ export function HeroCarousel({
     })
   );
 
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      align: "start",
+      duration: 24, // ms per px-ish (smooth)
+      dragFree: false,
+    },
+    [pluginRef.current]
+  );
+
   const [index, setIndex] = React.useState(0);
   const [isHover, setIsHover] = React.useState(false);
 
-  const onEmblaInit = React.useCallback((emblaApi: any) => {
+  // Sync selected index
+  React.useEffect(() => {
+    if (!emblaApi) return;
     const onSelect = () => setIndex(emblaApi.selectedScrollSnap());
     emblaApi.on("select", onSelect);
     onSelect();
-  }, []);
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi]);
+
+  // Hover → pause / resume
+  React.useEffect(() => {
+    if (!emblaApi) return;
+    const autoplay = pluginRef.current;
+    if (isHover) autoplay.stop();
+    else autoplay.play();
+  }, [isHover, emblaApi]);
+
+  const scrollPrev = React.useCallback(
+    () => emblaApi?.scrollPrev(),
+    [emblaApi]
+  );
+  const scrollNext = React.useCallback(
+    () => emblaApi?.scrollNext(),
+    [emblaApi]
+  );
+  const scrollTo = React.useCallback(
+    (i: number) => emblaApi?.scrollTo(i),
+    [emblaApi]
+  );
 
   return (
     <div
@@ -60,7 +99,7 @@ export function HeroCarousel({
       {/* Top progress bar */}
       <div className="absolute left-0 right-0 top-0 z-30 h-1 bg-black/10 dark:bg-white/10">
         <motion.div
-          key={`${index}-${isHover}`}
+          key={`${index}-${isHover}-${autoplayMs}`}
           initial={{ width: 0 }}
           animate={{ width: isHover ? 0 : "100%" }}
           transition={{
@@ -71,97 +110,111 @@ export function HeroCarousel({
         />
       </div>
 
-      <Carousel
-        plugins={[pluginRef.current]}
-        opts={{ loop: true, align: "start", duration: 24 }}
-        setApi={(api) => {
-          if (!api) return;
-          const update = () => setIndex(api.selectedScrollSnap());
-          api.on("select", update);
-          update();
-        }}
-      >
-        <CarouselContent
-          className={cn("relative rounded-xl overflow-hidden", heightClass)}
-        >
-          {slides.map((s, i) => (
-            <CarouselItem key={i} className="h-full">
-              <div className="relative h-full w-full">
-                {/* Ken Burns / Parallax wrapper */}
-                <motion.div
-                  className="absolute inset-0 will-change-transform"
-                  initial={{ scale: 1.05 }}
-                  animate={{ scale: 1.0, x: 0 }}
-                  transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                >
+      {/* Embla viewport */}
+      <div className={cn("relative", heightClass)}>
+        <div className="embla overflow-hidden h-full" ref={emblaRef}>
+          <div className="embla__container flex h-full">
+            {slides.map((s, i) => (
+              <div
+                className="embla__slide relative min-w-0 flex-[0_0_100%] h-full"
+                key={s.src}
+              >
+                <div className="relative w-full h-full">
                   <Image
                     src={s.src}
                     alt={s.alt}
                     fill
-                    priority={i === 1}
-                    // sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1200px"
-                    className="object-cover w-full"
+                    priority={i === 0}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1200px"
+                    className="object-cover"
                   />
-                </motion.div>
 
-                {/* Vignette + gradient overlays */}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                <div className="pointer-events-none absolute inset-0 [box-shadow:inset_0_0_180px_rgba(0,0,0,0.35)]" />
+                  {/* Vignette + gradient overlays */}
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                  <div className="pointer-events-none absolute inset-0 [box-shadow:inset_0_0_180px_rgba(0,0,0,0.35)]" />
 
-                {/* Caption */}
-                <AnimatePresence mode="popLayout">
-                  {s.caption && index === i && (
-                    <motion.div
-                      key={`cap-${i}`}
-                      initial={{ opacity: 0, y: 16 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 16 }}
-                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 max-w-[92%] sm:max-w-[70%]"
-                    >
-                      <span className="inline-flex items-center gap-2 rounded-full bg-white/15 dark:bg-black/25 backdrop-blur-md px-4 py-2 text-sm sm:text-base font-medium text-white shadow-lg ring-1 ring-white/30">
-                        {s.caption}
-                      </span>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                  {/* Caption */}
+                  <AnimatePresence mode="popLayout">
+                    {s.caption && index === i && (
+                      <motion.div
+                        key={`cap-${i}`}
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 16 }}
+                        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 max-w-[92%] sm:max-w-[70%]"
+                      >
+                        <span className="inline-flex items-center gap-2 rounded-full bg-white/15 dark:bg-black/25 backdrop-blur-md px-4 py-2 text-sm sm:text-base font-medium text-white shadow-lg ring-1 ring-white/30">
+                          {s.caption}
+                        </span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
+            ))}
+          </div>
+        </div>
 
         {/* Prev/Next */}
-        <CarouselPrevious
-          className={cn(
-            "left-3 sm:left-4 h-11 w-11 sm:h-12 sm:w-12 rounded-full z-30",
-            "bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/50",
-            "border border-border/60 shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-white/80"
-          )}
+        <button
+          type="button"
+          onClick={scrollPrev}
           aria-label="Previous slide"
-        />
-        <CarouselNext
           className={cn(
-            "right-3 sm:right-4 h-11 w-11 sm:h-12 sm:w-12 rounded-full z-30",
+            "absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 h-11 w-11 sm:h-12 sm:w-12 rounded-full z-30",
             "bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/50",
-            "border border-border/60 shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-white/80"
+            "border border-border/60 shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
           )}
+        >
+          <span className="sr-only">Previous</span>
+          <svg viewBox="0 0 24 24" className="mx-auto h-5 w-5">
+            <path
+              d="M15 6l-6 6 6 6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            />
+          </svg>
+        </button>
+        <button
+          type="button"
+          onClick={scrollNext}
           aria-label="Next slide"
-        />
-      </Carousel>
+          className={cn(
+            "absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 h-11 w-11 sm:h-12 sm:w-12 rounded-full z-30",
+            "bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/50",
+            "border border-border/60 shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+          )}
+        >
+          <span className="sr-only">Next</span>
+          <svg viewBox="0 0 24 24" className="mx-auto h-5 w-5">
+            <path
+              d="M9 6l6 6-6 6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            />
+          </svg>
+        </button>
+      </div>
 
       {/* Dot indicators */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2">
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            aria-label={`Go to slide ${i + 1}`}
-            className={cn(
-              "h-2.5 w-2.5 rounded-full transition-all",
-              i === index ? "w-6 bg-white/90" : "bg-white/50 hover:bg-white/80"
-            )}
-            // embla dots can be wired if you expose API
-          />
-        ))}
+        {slides.map((_, i) => {
+          const active = i === index;
+          return (
+            <button
+              key={i}
+              aria-label={`Go to slide ${i + 1}`}
+              onClick={() => scrollTo(i)}
+              className={cn(
+                "h-2.5 w-2.5 rounded-full transition-all",
+                active ? "w-6 bg-white/90" : "bg-white/50 hover:bg-white/80"
+              )}
+            />
+          );
+        })}
       </div>
 
       {/* Slide counter chip */}

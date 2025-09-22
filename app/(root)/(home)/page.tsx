@@ -1,28 +1,9 @@
-﻿import { cn } from "@/lib/utils";
-import { getCategories } from "@/actions/category.actions";
+﻿import { getCategories } from "@/actions/category.actions";
 import { getProducts } from "@/actions/product.actions";
 import Category from "@/components/shared/category";
 import Products from "@/components/shared/products";
 import { Card, CardContent } from "@/components/ui/card";
 import { HeroCarousel } from "@/components/hero-carousel";
-
-const slides = [
-  {
-    src: "/artsuzani.jpg",
-    alt: "Vintage Suzani embroidery detail",
-    caption: "Vintage Suzani — handworked heritage",
-  },
-  {
-    src: "/arsuzani-1.jpg",
-    alt: "Hand stitching on Suzani textile",
-    caption: "Hand stitching — every thread matters",
-  },
-  {
-    src: "/bukhara.jpg",
-    alt: "Bukhara bazaar with textiles",
-    caption: "From the bazaars of Bukhara",
-  },
-];
 
 export default async function Home() {
   const category = await getCategories();
@@ -48,7 +29,7 @@ export default async function Home() {
           </h1>
 
           <div className="w-full overflow-hidden">
-            <HeroCarousel slides={slides} className="rounded-xl" />
+            <HeroCarousel className="rounded-xl" />
           </div>
         </section>
 
@@ -97,57 +78,6 @@ export default async function Home() {
                   each piece tells a story of tradition, artistry, and cultural
                   pride passed down through generations.
                 </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {[
-                    {
-                      icon: "🎨",
-                      title: "Handcrafted Excellence",
-                      desc: "Every piece is meticulously handcrafted by skilled artisans using traditional techniques passed down through generations.",
-                      gradient: "from-purple-500 to-purple-600",
-                    },
-                    {
-                      icon: "🌍",
-                      title: "Authentic Heritage",
-                      desc: "Genuine Uzbek Suzani pieces that preserve the authentic cultural heritage and artistic traditions of Central Asia.",
-                      gradient: "from-pink-500 to-pink-600",
-                    },
-                    {
-                      icon: "✨",
-                      title: "Premium Quality",
-                      desc: "Only the finest materials and highest quality craftsmanship ensure each piece becomes a treasured heirloom.",
-                      gradient: "from-amber-500 to-amber-600",
-                    },
-                  ].map((f, i) => (
-                    <Card
-                      key={i}
-                      className="border-none shadow-lg bg-card hover:bg-card/90 transition-all duration-500 hover:shadow-xl hover:-translate-y-2 group animate-in fade-in slide-in-from-bottom-4"
-                      style={{ animationDelay: `${(i + 1) * 200}ms` }}
-                    >
-                      <CardContent className="p-8 text-center">
-                        <div
-                          className={cn(
-                            "w-20 h-20 rounded-full shadow-lg flex items-center justify-center mx-auto mb-6 text-3xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 bg-gradient-to-br",
-                            f.gradient
-                          )}
-                        >
-                          <span
-                            aria-hidden
-                            className="text-white drop-shadow-sm"
-                          >
-                            {f.icon}
-                          </span>
-                        </div>
-                        <h3 className="font-semibold text-foreground mb-3 text-lg group-hover:text-primary transition-colors duration-300">
-                          {f.title}
-                        </h3>
-                        <p className="text-muted-foreground leading-relaxed">
-                          {f.desc}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
               </div>
             </CardContent>
           </Card>
