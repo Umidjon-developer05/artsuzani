@@ -155,7 +155,7 @@ export default async function Page() {
   const blogs = await getBlogs();
   const list = Array.isArray(blogs) ? blogs : [];
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen ">
       <div className="container mx-auto px-4 md:px-6 max-w-6xl py-8 md:py-12 mt-20">
         <div className="mb-8 md:mb-10 text-center">
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight">

@@ -57,7 +57,6 @@ export default async function LocaleLayout({
           sizes="180x180"
           href="/apple-touch-icon.png"
         />
-        <link rel="manifest" href="/site.webmanifest" />
         <body>
           <NextTopLoader
             color="#3182CE"
