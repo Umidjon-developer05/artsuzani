@@ -2,6 +2,7 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import Whatsapp from "@/components/shared/whatsapp";
 import { Toaster } from "react-hot-toast";
+import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -58,6 +59,17 @@ export default async function LocaleLayout({
         />
         <link rel="manifest" href="/site.webmanifest" />
         <body>
+          <NextTopLoader
+            color="#3182CE"
+            initialPosition={0.5}
+            crawlSpeed={200}
+            height={2}
+            crawl={true}
+            showSpinner={false}
+            easing="ease"
+            speed={200}
+            shadow="0 0 10px #3182CE,0 0 5px #3182CE"
+          />
           {children}
           <Toaster />
           <div className="relative z-50">
