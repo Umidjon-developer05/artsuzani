@@ -24,7 +24,7 @@ const slides = [
     caption: "From the bazaars of Bukhara",
   },
   {
-    src: "http://dkm.gov.uz/uploads/2020/08/aykuprvkeornovoykrvovkpryukap.jpg",
+    src: "/image.png",
     alt: "Hand stitching on Suzani textile",
     caption: "Hand stitching — every thread matters",
   },
@@ -32,7 +32,7 @@ const slides = [
 
 export function HeroCarousel({
   className,
-  heightClass = "h-[52vh] min-h-[320px] max-h-[560px]",
+  heightClass = "h-[52vh] min-h-[460px] max-h-[560px]",
   autoplayMs = 4500,
   ...props
 }: HeroCarouselProps) {
