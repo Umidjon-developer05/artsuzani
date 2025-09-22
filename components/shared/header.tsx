@@ -128,30 +128,30 @@ const Header = ({
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               href="/"
-              className="text-gray-700 hover:text-red-500 transition-colors font-medium relative group"
+              className=" hover:text-red-500 transition-colors font-medium relative group"
             >
               Home
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 transition-all group-hover:w-full"></span>
             </Link>
             <Link
               href="/about"
-              className="text-gray-700 hover:text-red-500 transition-colors font-medium relative group"
+              className=" hover:text-red-500 transition-colors font-medium relative group"
             >
               About
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 transition-all group-hover:w-full"></span>
             </Link>
             <Link
               href="/products"
-              className="text-gray-700 hover:text-red-500 transition-colors font-medium relative group"
+              className=" hover:text-red-500 transition-colors font-medium relative group"
             >
               Products
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 transition-all group-hover:w-full"></span>
             </Link>
             <Link
               href="/blog"
-              className="text-gray-700 hover:text-red-500 transition-colors font-medium relative group"
+              className=" hover:text-red-500 transition-colors font-medium relative group"
             >
-              BLOG
+              Blogs
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 transition-all group-hover:w-full"></span>
             </Link>
           </nav>
