@@ -125,7 +125,11 @@ export function HeroCarousel({
                     alt={s.alt}
                     fill
                     priority={i === 0}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1200px"
+                    loading={i === 0 ? "eager" : "lazy"}
+                    fetchPriority={i === 0 ? "high" : "low"}
+                    sizes="(max-width: 768px) 100vw,
+         (max-width: 1280px) 90vw,
+         1200px"
                     className="object-cover"
                   />
 

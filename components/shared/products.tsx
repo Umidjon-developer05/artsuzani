@@ -56,6 +56,7 @@ const Products: React.FC<Props> = ({ products, currency = "USD" }) => {
                 src={product?.images?.at(0)}
                 alt={product?.title}
                 className="w-full"
+                loading="lazy"
               />
             </div>
 
