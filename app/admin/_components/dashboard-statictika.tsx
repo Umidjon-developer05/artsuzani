@@ -24,7 +24,7 @@ const StatistikaPage = () => {
 
   return (
     <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-      <Card className="shadow-lg rounded-2xl">
+      <Card className="shadow-lg bg-white rounded-2xl">
         <CardContent className="p-6 flex flex-col items-center">
           <span className="text-4xl font-bold text-blue-600">
             {stats.productlength}
@@ -33,7 +33,7 @@ const StatistikaPage = () => {
         </CardContent>
       </Card>
 
-      <Card className="shadow-lg rounded-2xl">
+      <Card className="shadow-lg bg-white rounded-2xl">
         <CardContent className="p-6 flex flex-col items-center">
           <span className="text-4xl font-bold text-green-600">
             {stats.categorylength}
@@ -41,7 +41,7 @@ const StatistikaPage = () => {
           <p className="text-gray-600">Categories</p>
         </CardContent>
       </Card>
-      <Card className="shadow-lg rounded-2xl">
+      <Card className="shadow-lg bg-white rounded-2xl">
         <CardContent className="p-6 flex flex-col items-center">
           <span className="text-4xl font-bold text-green-600">
             {stats.orderslength}

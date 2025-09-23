@@ -50,7 +50,9 @@ export default async function AdminLayout({
               </div>
             </header>
           </SidebarInset>
-          <div className="overflow-scroll h-full mb-20">{children}</div>
+          <div className="overflow-scroll h-full mb-20 bg-white  text-black">
+            {children}
+          </div>
         </div>
       </div>
     </SidebarProvider>
